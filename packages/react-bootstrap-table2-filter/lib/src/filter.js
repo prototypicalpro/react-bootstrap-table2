@@ -182,7 +182,7 @@ var filterByDate = exports.filterByDate = function filterByDate(_) {
 };
 
 var filterByArray = exports.filterByArray = function filterByArray(_) {
-  return function (data, dataField, _ref4) {
+  return function (data, dataField, _ref4, customFilterValue) {
     var filterVal = _ref4.filterVal,
         comparator = _ref4.comparator;
 
@@ -194,6 +194,9 @@ var filterByArray = exports.filterByArray = function filterByArray(_) {
     });
     return data.filter(function (row) {
       var cell = _.get(row, dataField);
+      if (customFilterValue) {
+        cell = customFilterValue(cell, row);
+      }
       if (Array.isArray(cell)) {
         if (comparator === _comparison.EQ) {
           return refinedFilterVal.length === cell.length && refinedFilterVal.every(function (val, i) {
